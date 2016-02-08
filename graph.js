@@ -15,34 +15,33 @@ d3.json("juice_orders", function(data) {
     delete(quantity.ctl);
 
     var scale = d3.scale.linear()
-                        .domain([0,1000])
-                        .range([10,100]);
+                        .domain([700,6000])
+                        .range([700,0]);
 
     var drinkNames = Object.keys(quantity);
 
     var svgContainer = d3.select("body").append("svg")
-                                            .attr("width", 1500)
-                                            .attr("height", 1000);
+                                            .attr("width", 1000)
+                                            .attr("height", 800);
 
-    var text = svgContainer.selectAll("text")
-                            .data(drinkNames)
-                            .enter()
-                            .append("text")
-                            .attr("x","10px")
-                            .attr("y",function(y,i){ return (i*16)+11+'px' ;})
-                            .attr("font-size","14px")
-                            .text(function(text){ return text; });
+     var line = svgContainer
+                              .selectAll("line")
+                              .data(drinkNames)
+                              .enter()
+                              .append("line")
+                              .attr("x1", function(d,i){ return 300 + (i*22)+5 ; })
+                              .attr("y1", function(d) { return 300 + (i*22); })
+                              .attr("x2", function(d,i){ return 300 + (i*22)+5 ;})
+                              .attr("y2", function(d){ return scale(quantity[d]);})
+                              .style("stroke-width","20")
+                              .style("stroke","steelblue")
+                              .attr("fill","steelblue");
 
-    var rectangle = svgContainer
-                             .selectAll("rect")
-                             .data(drinkNames)
-                             .enter()
-                             .append("rect")
-                             .attr("x", '155px')
-                             .attr("y", function(y,i){ return i*16+'px' ;})
-                             .attr("width", function(d) { return scale(quantity[d])+'px'; })
-                             .attr("height", '15px')
-                             .attr("text-align", 'right')
-                             .attr("fill","steelblue");
-
+    var text = svgContainer
+                        .selectAll("line")
+                        .data(drinkNames)
+                        .enter()
+                        .append("text")
+                        .style("transform","rotate(90deg)")
+                        .text(function(d){ return d; });
 });
