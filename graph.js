@@ -15,8 +15,8 @@ d3.json("juice_orders", function(data) {
     delete(quantity.ctl);
 
     var scale = d3.scale.linear()
-                        .domain([700,6000])
-                        .range([700,0]);
+                        .domain([10,6112])
+                        .range([50,6112]);
 
     var drinkNames = Object.keys(quantity);
 
@@ -30,18 +30,11 @@ d3.json("juice_orders", function(data) {
                               .enter()
                               .append("line")
                               .attr("x1", function(d,i){ return 300 + (i*22)+5 ; })
-                              .attr("y1", function(d) { return 300 + (i*22); })
+                              .attr("y1", function(d,i) { return 600; })
                               .attr("x2", function(d,i){ return 300 + (i*22)+5 ;})
-                              .attr("y2", function(d){ return scale(quantity[d]);})
+                              .attr("y2", function(d){ return 600 - scale(quantity[d]/15);})
                               .style("stroke-width","20")
                               .style("stroke","steelblue")
                               .attr("fill","steelblue");
 
-    var text = svgContainer
-                        .selectAll("line")
-                        .data(drinkNames)
-                        .enter()
-                        .append("text")
-                        .style("transform","rotate(90deg)")
-                        .text(function(d){ return d; });
 });
